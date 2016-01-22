@@ -1,0 +1,14 @@
+Package: rformat
+Type: Package
+Title: Utilities to make pretty docs and presentations.
+Version: 0.1
+Date: 2016-01-21
+Authors@R: person("Andrea", "Fernandez", email = "animalsalvaje@gmail.com", role = c("aut", "cre"))
+Description: Attempts to minimize time wasted in making your pdf or beamer
+    presentation beautiful.
+Imports:
+    magrittr,
+    stringr
+License: MIT
+LazyData: TRUE
+RoxygenNote: 5.0.1
