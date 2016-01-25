@@ -36,7 +36,24 @@ fnumber <- function(number){
   return(fn)
 }
 
-ftable <- function(df){
+
+#' Formats a data frame numeric and integer columns into a readable format.
+#'
+#' @param data.frame df
+#' @param fnames By default, \code{fnames = TRUE} transforms the names of the
+#'   columns into readable names using fancy_names. To leave them identical use
+#'   \code{fnames = FALSE}.
+#'
+#' @examples
+#' options(scipen = 999, digits = 10) # disable scientific notation
+#' df <- data.frame(
+#'   big_numbers = rnorm(10, 1000000,1000000),
+#'   big_integers = floor(rnorm(10, 1000000,1000000)),
+#'   mixed.numbers = c(rnorm(5, 100, 50), rnorm(5, 100, 50))
+#' )
+#' df
+#' ftable(df)
+ftable <- function(df, fnames = TRUE){
   df <- data.frame(df)
   # Numeros y enteros los hacemos leibles y bonitos
   clases <- sapply(df, class)
@@ -45,8 +62,39 @@ ftable <- function(df){
       df[, i] <- fnumber(df[, i])
     }
   }
-
-  # Ahora, arreglamos los nombres
-  #names(df) <- nombresMaricas(names(df))
+  if (fnames == TRUE) {
+    names(df) <- fancy_names(names(df))
+  }
   return(df)
+}
+
+#' Get totals and percentages.
+#'
+#' @param \dots Additional arguments.
+#' @param percentages data.frame with percentages.
+#' @param totals data.frame with totals.
+#'
+#' @examples
+#' library(tidyr)
+#' totals <- data.frame(names = letters[1:5], x = rnorm(5, 500, 200), y = rnorm(5, 500, 200))
+#' per <- tidyr::gather(totals, key = key, value = value, -names) %>% dplyr::group_by(key) %>% dplyr::mutate(percentage = value/sum(value) * 100) %>% dplyr::select(-value) %>% tidyr::spread(key = key, value = percentage) %>% data.frame()
+#' total_percentage(totals, per)
+#' total_percentage(totals, per, fnames = F)
+
+total_percentage <- function(totals, percentages, ...){
+  if ( nrow(totals) != nrow(percentages) ) {
+    stop("The tables do not have the same number of rows.")
+  }
+  if ( nrow(totals) != nrow(percentages) ) {
+    stop("The tables do not have the same number of columns.")
+  }
+  if ( !identical(totals[, 1], percentages[, 1]) ) {
+    stop("Tables do not have identical dimensions.")
+  }
+  tab.tot <- ftable(totals, ...)
+  tab.por <- ftable(percentages, ...)
+  for(i in c(2:ncol(tab.tot))){
+    tab.tot[, i] <- paste0(tab.tot[, i], " (", tab.por[, i], "%)")
+  }
+  return(tab.tot)
 }
