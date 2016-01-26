@@ -24,7 +24,7 @@ fnumber.s <- function(n){
 #' fnumber(454667)
 #' fnumber(456234.3434356)
 #' fnumber(c(453535635, 364634.6245624, 43634.35235236, 32535234523))
-
+#' @export
 #' @importFrom stringr "str_trim"
 fnumber <- function(number){
   if (length(number) > 1) {
@@ -53,6 +53,7 @@ fnumber <- function(number){
 #' )
 #' df
 #' ftable(df)
+#' @export
 ftable <- function(df, fnames = TRUE){
   df <- data.frame(df)
   # Numeros y enteros los hacemos leibles y bonitos
@@ -80,7 +81,7 @@ ftable <- function(df, fnames = TRUE){
 #' per <- tidyr::gather(totals, key = key, value = value, -names) %>% dplyr::group_by(key) %>% dplyr::mutate(percentage = value/sum(value) * 100) %>% dplyr::select(-value) %>% tidyr::spread(key = key, value = percentage) %>% data.frame()
 #' total_percentage(totals, per)
 #' total_percentage(totals, per, fnames = F)
-
+#' @export
 total_percentage <- function(totals, percentages, ...){
   if ( nrow(totals) != nrow(percentages) ) {
     stop("The tables do not have the same number of rows.")

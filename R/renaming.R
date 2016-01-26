@@ -10,7 +10,7 @@
 #'
 #' @examples
 #' normalize_names(c("Hello  world   ", "another.name", "camelCase", "ALL"))
-
+#' @export
 #' @importFrom magrittr "%>%"
 normalize_names <- function(column_names) {
   gsub("^ *|(?<= ) | *$", "", column_names, perl=T) %>%
@@ -32,7 +32,7 @@ normalize_names <- function(column_names) {
 #'
 #' @examples
 #' fancy_names(c("a.good_name", "another-name"))
-
+#' @export
 fancy_names <- function(x){
   gsub("(\\_|\\.|\\-)([A-Za-z])", " \\U\\2", x, perl = T) %>%
     gsub("^([A-Za-z])", "\\U\\1", ., perl = T)
