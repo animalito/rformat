@@ -12,9 +12,10 @@
 #' normalize_names(c("Hello  world   ", "another.name", "camelCase", "ALL"))
 #' @export
 #' @importFrom magrittr "%>%"
+#' @importFrom stringr "str_trim"
 normalize_names <- function(column_names) {
-  gsub("\\s+", " ", str_trim(column_names)) %>%
-    gsub("^ *|(?<= ) | *$", "", column_names, perl=T) %>%
+  gsub("\\s+", " ", stringr::str_trim(column_names)) %>%
+    gsub("^ *|(?<= ) | *$", "", ., perl=T) %>%
     gsub('\\ |\\.', '_', .) %>%
     gsub("([a-z])([A-Z])", "\\1_\\L\\2", ., perl = TRUE) %>%
     gsub('ñ', 'n', .) %>%
