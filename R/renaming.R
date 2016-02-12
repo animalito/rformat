@@ -13,7 +13,8 @@
 #' @export
 #' @importFrom magrittr "%>%"
 normalize_names <- function(column_names) {
-  gsub("^ *|(?<= ) | *$", "", column_names, perl=T) %>%
+  gsub("\\s+", " ", str_trim(column_names)) %>%
+    gsub("^ *|(?<= ) | *$", "", column_names, perl=T) %>%
     gsub('\\ |\\.', '_', .) %>%
     gsub("([a-z])([A-Z])", "\\1_\\L\\2", ., perl = TRUE) %>%
     gsub('ñ', 'n', .) %>%
